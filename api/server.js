@@ -2,9 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import authRoutes from './routes/authRoutes.js';
-import clothingRoutes from './routes/clothingRoutes.js';
-import outfitRoutes from './routes/outfitRoutes.js';
+import authRoutes from '../routes/authRoutes.js';
+import clothingRoutes from '../routes/clothingRoutes.js';
+import outfitRoutes from '../routes/outfitRoutes.js';
 
 dotenv.config();
 const app = express();
