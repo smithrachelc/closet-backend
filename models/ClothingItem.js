@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const ClothingItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   category: { type: String, required: true },
-  imageUrl: { type: String } // Optional: if you handle image uploads later
+  imageUrl: { type: String, required: true }
 });
 
 const ClothingItem = mongoose.model('ClothingItem', ClothingItemSchema);

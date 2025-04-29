@@ -1,7 +1,15 @@
 import multer from 'multer';
+import path from 'path';
 
-// Simple memory storage — you can later save to S3, etc.
-const storage = multer.memoryStorage();
+// Save images to /uploads folder
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Save to uploads folder (you need to create it)
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique file name
+  }
+});
 
 const upload = multer({ storage });
 
