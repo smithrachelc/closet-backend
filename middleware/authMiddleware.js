@@ -1,16 +1,24 @@
+import jwt from 'jsonwebtoken';
+
 export const protect = async (req, res, next) => {
-  const auth = req.headers.authorization;
-  if (auth && auth.startsWith('Bearer')) {
+  let token;
+
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
-      const token = auth.split(' ')[1];
+      token = req.headers.authorization.split(' ')[1];
+
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = { id: decoded.id }; // this must match what you use in saveOutfit
+      req.user = { id: decoded.id, email: decoded.email, role: decoded.role }; // ✅ must set req.user
+
       next();
     } catch (err) {
-      return res.status(401).json({ message: 'Not authorized' });
+      console.error('Auth error:', err);
+      return res.status(401).json({ message: 'Not authorized, token failed' });
     }
-  } else {
-    res.status(401).json({ message: 'No token' });
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
 
