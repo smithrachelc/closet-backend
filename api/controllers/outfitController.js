@@ -28,7 +28,7 @@ export const getPublicOutfits = async (req, res) => {
 };
 
 // Toggle public/private visibility of an outfit
-export const makeOutfitPublic = async (req, res) => {
+export const toggleOutfitVisibility = async (req, res) => {
   const outfitId = req.params.id;
   const { isPublic } = req.body;
   const outfit = await Outfit.findById(outfitId);
