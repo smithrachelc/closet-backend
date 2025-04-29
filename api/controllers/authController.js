@@ -67,4 +67,8 @@ export const registerUser = async (req, res) => {
     console.error('Register error:', err);
     res.status(500).json({ message: 'Server error' });
   }
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is missing from environment variables.');
+  }
+  
 };
