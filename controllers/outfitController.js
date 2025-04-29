@@ -54,21 +54,21 @@ export const deletePublicOutfit = async (req, res) => {
 };
 
 export const saveOutfit = async (req, res) => {
-  const { name, items } = req.body;
   try {
+    const { name, items } = req.body;
     const newOutfit = new Outfit({
       name,
       clothingItems: items,
       userId: req.user.id
     });
+
     await newOutfit.save();
     res.status(201).json(newOutfit);
   } catch (err) {
-    console.error('Save outfit error:', err);
+    console.error('Save outfit error:', err.message, err.stack);
     res.status(500).json({ message: 'Save failed' });
   }
 };
-
 export const getMyOutfits = async (req, res) => {
   try {
     const outfits = await Outfit.find({ userId: req.user.id });
