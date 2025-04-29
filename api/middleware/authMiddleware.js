@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
-import { authenticateToken } from '../middleware/authMiddleware.js';
 
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader?.split(' ')[1];
 
-  if (!token) return res.status(401).json({ message: 'Missing token' });
+  if (!token) {
+    return res.status(401).json({ message: 'Missing token' });
+  }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: 'Invalid token' });
@@ -13,4 +14,3 @@ export const authenticateToken = (req, res, next) => {
     next();
   });
 };
-
