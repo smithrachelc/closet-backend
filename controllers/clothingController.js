@@ -25,3 +25,14 @@ export const uploadClothing = async (req, res) => {
     res.status(500).json({ error: 'Upload failed' });
   }
 };
+
+// 🆕 ADD THIS FUNCTION!
+export const getAllClothingItems = async (req, res) => {
+  try {
+    const clothingItems = await ClothingItem.find();
+    res.status(200).json(clothingItems);
+  } catch (error) {
+    console.error('Failed to get clothing items:', error);
+    res.status(500).json({ error: 'Failed to get clothing items' });
+  }
+};
