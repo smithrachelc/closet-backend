@@ -1,8 +1,11 @@
+// controllers/clothingController.js
 import ClothingItem from '../models/ClothingItem.js';
 import cloudinary from '../config/cloudinaryConfig.js';
 
 export const uploadClothing = async (req, res) => {
-  const { name, image, category, userId } = req.body;
+  const { name, image, category } = req.body;
+  const userId = req.user.id;
+
   try {
     const uploadedImage = await cloudinary.uploader.upload(image, {
       folder: 'closet-clothing'

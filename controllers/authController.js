@@ -10,11 +10,13 @@ export const registerUser = async (req, res) => {
     const newUser = new User({ name, email, password });
     await newUser.save();
 
-    const token = jwt.sign(
-      { id: newUser._id, email: newUser.email, role: newUser.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    // wherever you generate the JWT (e.g., in login controller)
+const token = jwt.sign(
+  { id: user._id, email: user.email },
+  process.env.JWT_SECRET,
+  { expiresIn: '1d' }
+);
+
 
     res.status(201).json({ token });
   } catch (err) {
