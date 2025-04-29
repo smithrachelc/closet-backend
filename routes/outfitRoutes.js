@@ -3,7 +3,9 @@ import {
   createOutfit,
   toggleOutfitVisibility,
   getPublicOutfits,
-  deletePublicOutfit
+  deletePublicOutfit,
+  saveOutfit,               // make sure this matches
+  getMyOutfits
 } from '../controllers/outfitController.js';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 

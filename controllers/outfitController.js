@@ -83,3 +83,12 @@ export const getMyOutfits = async (req, res) => {
     res.status(500).json({ message: 'Fetch failed' });
   }
 };
+
+export {
+  createOutfit,
+  toggleOutfitVisibility,
+  getPublicOutfits,
+  deletePublicOutfit,
+  saveOutfit,         // <-- you must add this
+  getMyOutfits        // <-- and this
+};
