@@ -1,6 +1,6 @@
 import express from 'express';
-import { uploadClothing, getMyClothing } from '../api/controllers/clothingController.js';
-import { authenticateToken } from '../api/middleware/authMiddleware.js';
+import { uploadClothing, getMyClothing } from '../controllers/clothingController.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
