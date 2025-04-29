@@ -19,3 +19,12 @@ export const uploadClothing = async (req, res) => {
     res.status(500).json({ message: 'Upload failed' });
   }
 };
+export const getMyClothing = async (req, res) => {
+  try {
+    const clothing = await ClothingItem.find({ userId: req.user.id });
+    res.json(clothing);
+  } catch (err) {
+    console.error('Get clothing error:', err);
+    res.status(500).json({ message: 'Fetch failed' });
+  }
+};
