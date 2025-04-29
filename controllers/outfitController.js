@@ -79,11 +79,3 @@ export const getMyOutfits = async (req, res) => {
   }
 };
 
-export {
-  createOutfit,
-  toggleOutfitVisibility,
-  getPublicOutfits,
-  deletePublicOutfit,
-  saveOutfit,
-  getMyOutfits
-};
