@@ -20,7 +20,7 @@ import outfitRoutes from './routes/outfitRoutes.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/clothing', clothingRoutes);
-app.use('/api/outfit', outfitRoutes);
+app.use('/api/outfits', outfitRoutes);
 
 // MongoDB connection
 mongoose
