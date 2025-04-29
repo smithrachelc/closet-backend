@@ -3,11 +3,12 @@ import jwt from 'jsonwebtoken';
 
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id, email: user.email, role: user.role },
+    { id: user._id, email: user.email, role: user.role }, // ✅ include role
     process.env.JWT_SECRET,
     { expiresIn: '30d' }
   );
 };
+
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
