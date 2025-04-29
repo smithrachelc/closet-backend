@@ -1,19 +1,18 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
 // POST /api/auth/login
 export const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
@@ -34,7 +33,7 @@ export const loginUser = async (req, res) => {
 
 // POST /api/auth/register
 export const registerUser = async (req, res) => {
-  const { name, email, password } = req.body; // ✅ grab "name" from frontend too
+  const { name, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -43,14 +42,10 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     const newUser = new User({
-      name,                // ✅ add the name here
-      username: email,      // still storing email as username
+      name,
       email,
-      password: hashedPassword,
+      password,
       role: 'user'
     });
 
@@ -67,8 +62,4 @@ export const registerUser = async (req, res) => {
     console.error('Register error:', err);
     res.status(500).json({ message: 'Server error' });
   }
-  if (!process.env.JWT_SECRET) {
-    throw new Error('JWT_SECRET is missing from environment variables.');
-  }
-  
 };
