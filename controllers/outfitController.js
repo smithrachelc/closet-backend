@@ -84,11 +84,4 @@ export const getMyOutfits = async (req, res) => {
   }
 };
 
-export {
-  createOutfit,
-  toggleOutfitVisibility,
-  getPublicOutfits,
-  deletePublicOutfit,
-  saveOutfit,         // <-- you must add this
-  getMyOutfits        // <-- and this
-};
+
