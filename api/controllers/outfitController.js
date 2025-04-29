@@ -16,7 +16,7 @@ export const createOutfit = async (req, res) => {
 };
 
 // Get all outfits owned by the logged-in user
-export const getUserOutfits = async (req, res) => {
+export const getMyOutfits = async (req, res) => {
   const outfits = await Outfit.find({ userId: req.user.id }).populate('items');
   res.json(outfits);
 };
