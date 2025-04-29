@@ -1,48 +1,57 @@
 import Outfit from '../models/Outfit.js';
 
-// Create a new outfit
 export const createOutfit = async (req, res) => {
-  const { name, items, isPublic } = req.body;
-  const userId = req.user.id;
+  const { name, clothingItems } = req.body;
+  try {
+    const newOutfit = new Outfit({
+      name,
+      clothingItems,
+      userId: req.user.id
+    });
 
-  const newOutfit = await Outfit.create({
-    name,
-    items,
-    userId,
-    isPublic: isPublic || false
-  });
-
-  res.status(201).json(newOutfit);
+    await newOutfit.save();
+    res.status(201).json(newOutfit);
+  } catch (err) {
+    console.error('Create outfit error:', err);
+    res.status(500).json({ message: 'Create failed' });
+  }
 };
 
-// Get all outfits owned by the logged-in user
-export const getMyOutfits = async (req, res) => {
-  const outfits = await Outfit.find({ userId: req.user.id }).populate('items');
-  res.json(outfits);
-};
-
-// Get all public outfits
-export const getPublicOutfits = async (req, res) => {
-  const publicOutfits = await Outfit.find({ isPublic: true }).populate('items');
-  res.json(publicOutfits);
-};
-
-// Toggle public/private visibility of an outfit
 export const toggleOutfitVisibility = async (req, res) => {
-  const outfitId = req.params.id;
-  const { isPublic } = req.body;
-  const outfit = await Outfit.findById(outfitId);
+  const { outfitId, isPublic } = req.body;
+  try {
+    const outfit = await Outfit.findById(outfitId);
+    if (!outfit) return res.status(404).json({ message: 'Outfit not found' });
 
-  if (!outfit) {
-    return res.status(404).json({ message: 'Outfit not found' });
+    outfit.isPublic = isPublic;
+    await outfit.save();
+    res.json(outfit);
+  } catch (err) {
+    console.error('Toggle error:', err);
+    res.status(500).json({ message: 'Toggle failed' });
   }
+};
 
-  if (outfit.userId.toString() !== req.user.id) {
-    return res.status(403).json({ message: 'Not authorized to modify this outfit' });
+export const getPublicOutfits = async (req, res) => {
+  try {
+    const outfits = await Outfit.find({ isPublic: true }).populate('clothingItems');
+    res.json(outfits);
+  } catch (err) {
+    console.error('Get public outfits error:', err);
+    res.status(500).json({ message: 'Fetch failed' });
   }
+};
 
-  outfit.isPublic = isPublic;
-  await outfit.save();
+export const deletePublicOutfit = async (req, res) => {
+  const { outfitId } = req.params;
+  try {
+    const outfit = await Outfit.findById(outfitId);
+    if (!outfit) return res.status(404).json({ message: 'Outfit not found' });
 
-  res.json({ message: `Outfit is now ${isPublic ? 'public' : 'private'}` });
+    await Outfit.deleteOne({ _id: outfitId });
+    res.json({ message: 'Outfit deleted' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ message: 'Delete failed' });
+  }
 };
