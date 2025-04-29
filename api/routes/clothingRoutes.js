@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
+import { getMyClothing, uploadClothing, deleteClothing } from '../controllers/clothingController.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const { getMyClothing, uploadClothing, deleteClothing } = require('../controllers/clothingController');
-const { authenticateToken } = require('../middleware/authMiddleware');
 
 router.get('/mine', authenticateToken, getMyClothing);
 router.post('/upload', authenticateToken, uploadClothing);
 router.delete('/:id', authenticateToken, deleteClothing);
 
-module.exports = router;
+export default router;
