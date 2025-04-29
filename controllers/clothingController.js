@@ -6,8 +6,7 @@ export const uploadClothing = async (req, res) => {
 
     const newClothing = new ClothingItem({
       name,
-      category,
-      // imageUrl: req.file ? req.file.filename : undefined   // Later if you add multer/image uploads
+      category
     });
 
     await newClothing.save();
