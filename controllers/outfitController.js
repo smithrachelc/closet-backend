@@ -72,11 +72,13 @@ export const saveOutfit = async (req, res) => {
 };
 export const getMyOutfits = async (req, res) => {
   try {
-    const outfits = await Outfit.find({ userId: req.user.id });
+    const outfits = await Outfit.find({ userId: req.user.id })
+      .populate('clothingItems'); // ✅ Get full item info
     res.json(outfits);
   } catch (err) {
-    console.error('Fetch my outfits error:', err);
+    console.error('Fetch outfits error:', err);
     res.status(500).json({ message: 'Fetch failed' });
   }
 };
+
 
