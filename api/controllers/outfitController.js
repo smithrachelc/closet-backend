@@ -22,3 +22,13 @@ export const getPublicOutfits = async (req, res) => {
   const publicOutfits = await Outfit.find({ isPublic: true }).populate('items');
   res.json(publicOutfits);
 };
+import Outfit from '../models/Outfit.js';
+
+// ✅ This function must exist
+export const getUserOutfits = async (req, res) => {
+  const userId = req.user.id;
+
+  const outfits = await Outfit.find({ userId }).populate('items');
+
+  res.json(outfits);
+};
