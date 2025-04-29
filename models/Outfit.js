@@ -2,9 +2,7 @@ import mongoose from 'mongoose';
 
 const OutfitSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  clothingItems: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'ClothingItem' }  // ✅ Reference
-  ],
+  clothingItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClothingItem' }],
   userId: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
