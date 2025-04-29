@@ -1,10 +1,17 @@
 import mongoose from 'mongoose';
 
-const outfitSchema = new mongoose.Schema({
+const OutfitSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  clothingItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClothingItem' }],
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  isPublic: { type: Boolean, default: false }
-}, { timestamps: true });
+  clothingItems: [
+    {
+      name: String,
+      imageUrl: String,
+      category: String,
+      _id: false
+    }
+  ],
+  userId: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
 
-export default mongoose.model('Outfit', outfitSchema);
+export default mongoose.model('Outfit', OutfitSchema);
