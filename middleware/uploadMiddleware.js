@@ -1,15 +1,5 @@
 import multer from 'multer';
-import path from 'path';
-
-// Save images to /uploads folder
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Save to uploads folder (you need to create it)
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique file name
-  }
-});
+import { storage } from '../utils/cloudinary.js'; // Use Cloudinary storage
 
 const upload = multer({ storage });
 
