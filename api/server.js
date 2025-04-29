@@ -1,20 +1,18 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';    // <--- 1. Import dotenv immediately
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-// Load .env variables FIRST
-dotenv.config();                // <--- 2. Load dotenv before anything else
-
-import authRoutes from './routes/authRoutes.js';
-import clothingRoutes from './routes/clothingRoutes.js';
-import outfitRoutes from './routes/outfitRoutes.js';
+dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+
+import authRoutes from './routes/authRoutes.js';
+import clothingRoutes from './routes/clothingRoutes.js';
+import outfitRoutes from './routes/outfitRoutes.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/clothing', clothingRoutes);
@@ -24,5 +22,4 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+export default app;  // <--- important for Vercel
