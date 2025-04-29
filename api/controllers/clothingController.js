@@ -1,8 +1,8 @@
-const ClothingItem = require('../models/ClothingItem');
-const cloudinary = require('../utils/cloudinary');
+import ClothingItem from '../models/ClothingItem.js';
+import cloudinary from '../utils/cloudinary.js';
 
 // GET /api/clothing/mine
-const getMyClothing = async (req, res) => {
+export const getMyClothing = async (req, res) => {
   try {
     const userId = req.user.id;
     const items = await ClothingItem.find({ userId });
@@ -14,7 +14,7 @@ const getMyClothing = async (req, res) => {
 };
 
 // POST /api/clothing/upload
-const uploadClothing = async (req, res) => {
+export const uploadClothing = async (req, res) => {
   try {
     const userId = req.user.id;
     const { name, category, imageBase64 } = req.body;
@@ -43,7 +43,7 @@ const uploadClothing = async (req, res) => {
 };
 
 // DELETE /api/clothing/:id
-const deleteClothing = async (req, res) => {
+export const deleteClothing = async (req, res) => {
   try {
     const userId = req.user.id;
     const itemId = req.params.id;
@@ -59,10 +59,4 @@ const deleteClothing = async (req, res) => {
     console.error('Error deleting clothing:', err);
     res.status(500).json({ message: 'Failed to delete clothing item' });
   }
-};
-
-module.exports = {
-  getMyClothing,
-  uploadClothing,
-  deleteClothing
 };
