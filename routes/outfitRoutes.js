@@ -4,8 +4,8 @@ import {
   toggleOutfitVisibility,
   getPublicOutfits,
   deletePublicOutfit
-} from '../controllers/outfitController.js';
-import { authenticateToken, adminOnly } from '../middleware/authMiddleware.js';
+} from '../api/controllers/outfitController.js';
+import { authenticateToken, adminOnly } from '../api/middleware/authMiddleware.js';
 
 const router = express.Router();
 
