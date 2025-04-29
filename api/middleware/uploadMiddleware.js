@@ -1,6 +1,13 @@
 import multer from 'multer';
-import { storage } from '../utils/cloudinary.js'; // Use Cloudinary storage
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import cloudinary from '../utils/cloudinary.js';
 
-const upload = multer({ storage });
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'ClosetCleanup', // ✅ Your Cloudinary folder name
+    allowed_formats: ['jpg', 'jpeg', 'png']
+  }
+});
 
-export default upload;
+export const upload = multer({ storage });

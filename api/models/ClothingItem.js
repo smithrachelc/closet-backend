@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
-
 const clothingItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   category: { type: String, required: true },
-  imagePath: String,
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // ✅
+  imagePath: { type: String }, // ✅ Save uploaded image path
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
-export default mongoose.model('ClothingItem', clothingItemSchema);
+const ClothingItem = mongoose.model('ClothingItem', clothingItemSchema);
+
+export default ClothingItem;

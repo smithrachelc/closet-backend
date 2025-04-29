@@ -1,27 +1,24 @@
 import ClothingItem from '../models/ClothingItem.js';
 
-// Upload clothing (you already have this)
 export const uploadClothing = async (req, res) => {
-  const { name, category } = req.body;
-  const userId = req.user.id;
+  try {
+    const { name, category } = req.body;
+    const userId = req.user.id;
 
-  const imagePath = req.file?.path || '';
+    if (!name || !category || !req.file) {
+      return res.status(400).json({ message: 'Name, category, and image are required.' });
+    }
 
-  const newItem = await ClothingItem.create({
-    name,
-    category,
-    imagePath,
-    userId
-  });
+    const newClothingItem = await ClothingItem.create({
+      name,
+      category,
+      imagePath: req.file.path, // ✅ Cloudinary gives URL here!
+      userId
+    });
 
-  res.status(201).json(newItem);
-};
-
-// ✅ Add this missing function:
-export const getUserClothingItems = async (req, res) => {
-  const userId = req.user.id;
-
-  const clothingItems = await ClothingItem.find({ userId });
-
-  res.json(clothingItems);
+    res.status(201).json(newClothingItem);
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ message: 'Error uploading clothing item' });
+  }
 };
