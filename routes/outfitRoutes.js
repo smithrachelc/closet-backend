@@ -5,13 +5,13 @@ import {
   getPublicOutfits,
   deletePublicOutfit
 } from '../controllers/outfitController.js';
-import { authenticateToken, adminOnly } from '../middleware/authMiddleware.js';
+import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/create', authenticateToken, createOutfit);
-router.patch('/toggle', authenticateToken, toggleOutfitVisibility);
+router.post('/create', protect, createOutfit);
+router.patch('/toggle', protect, toggleOutfitVisibility);
 router.get('/public', getPublicOutfits);
-router.delete('/delete/:outfitId', authenticateToken, adminOnly, deletePublicOutfit);
+router.delete('/delete/:outfitId', protect, adminOnly, deletePublicOutfit);
 
 export default router;
