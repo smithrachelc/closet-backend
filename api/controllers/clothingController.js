@@ -1,8 +1,9 @@
 import ClothingItem from '../models/ClothingItem.js';
 
+// Upload clothing (you already have this)
 export const uploadClothing = async (req, res) => {
   const { name, category } = req.body;
-  const userId = req.user.id; // ✅ from decoded token
+  const userId = req.user.id;
 
   const imagePath = req.file?.path || '';
 
@@ -16,13 +17,11 @@ export const uploadClothing = async (req, res) => {
   res.status(201).json(newItem);
 };
 
-// 🆕 ADD THIS FUNCTION!
-export const getAllClothingItems = async (req, res) => {
-  try {
-    const clothingItems = await ClothingItem.find();
-    res.status(200).json(clothingItems);
-  } catch (error) {
-    console.error('Failed to get clothing items:', error);
-    res.status(500).json({ error: 'Failed to get clothing items' });
-  }
+// ✅ Add this missing function:
+export const getUserClothingItems = async (req, res) => {
+  const userId = req.user.id;
+
+  const clothingItems = await ClothingItem.find({ userId });
+
+  res.json(clothingItems);
 };
