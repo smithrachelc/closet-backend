@@ -7,6 +7,8 @@ import clothingRoutes from './routes/clothingRoutes.js';
 import outfitRoutes from './routes/outfitRoutes.js';
 
 dotenv.config();
+const clothingRoutes = require('./api/routes/clothingRoutes');
+app.use('/api/clothing', clothingRoutes);
 
 const app = express();
 app.use(cors());

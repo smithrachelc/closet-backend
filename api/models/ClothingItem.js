@@ -1,12 +1,14 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-const clothingItemSchema = new mongoose.Schema({
+const ClothingItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  category: { type: String, required: true },
-  imagePath: { type: String }, // ✅ Save uploaded image path
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
-});
+  imageUrl: { type: String, required: true },
+  category: { type: String },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
+}, { timestamps: true });
 
-const ClothingItem = mongoose.model('ClothingItem', clothingItemSchema);
-
-export default ClothingItem;
+module.exports = mongoose.model('ClothingItem', ClothingItemSchema);

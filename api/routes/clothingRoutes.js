@@ -1,11 +1,10 @@
-import { Router } from 'express';
-import { uploadClothing, getUserClothingItems } from '../controllers/clothingController.js';
-import { upload } from '../middleware/uploadMiddleware.js';
-import { protect } from '../middleware/authMiddleware.js';
+const express = require('express');
+const router = express.Router();
+const { getMyClothing, uploadClothing, deleteClothing } = require('../controllers/clothingController');
+const { authenticateToken } = require('../middleware/authMiddleware');
 
-const router = Router();
+router.get('/mine', authenticateToken, getMyClothing);
+router.post('/upload', authenticateToken, uploadClothing);
+router.delete('/:id', authenticateToken, deleteClothing);
 
-router.post('/upload', protect, upload.single('image'), uploadClothing);
-router.get('/all', protect, getUserClothingItems);
-
-export default router;
+module.exports = router;
