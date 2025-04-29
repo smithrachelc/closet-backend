@@ -1,11 +1,12 @@
-import express from 'express';
+import { Router } from 'express';
 import { createOutfit, getUserOutfits, getPublicOutfits, makeOutfitPublic } from '../controllers/outfitController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
-const router = express.Router();
+const router = Router();
 
-router.post('/outfits', createOutfit);
-router.get('/outfits/private/:userId', getUserOutfits);
-router.get('/outfits/public', getPublicOutfits);
-router.patch('/outfits/:id/public', makeOutfitPublic);
+router.post('/create', protect, createOutfit); // Create outfit
+router.get('/mine', protect, getUserOutfits); // Get my outfits
+router.get('/public', getPublicOutfits); // Get public outfits
+router.patch('/toggle/:id', protect, makeOutfitPublic); // Toggle outfit visibility
 
 export default router;
