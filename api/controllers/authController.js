@@ -1,13 +1,11 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 
-// POST /api/auth/register
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -15,8 +13,7 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       name,
       email,
-      password,  // ✅ DO NOT HASH MANUALLY — User model pre('save') will hash it automatically
-      role: 'user'
+      password
     });
 
     await newUser.save();
@@ -34,7 +31,6 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// POST /api/auth/login
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
