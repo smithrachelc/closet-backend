@@ -8,19 +8,20 @@ const generateToken = (id, email, role = 'user') => {
 };
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log('Login attempt:', email); // ✅ Add this
 
   try {
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = generateToken(user._id, user.email, user.role);
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
 
     res.status(200).json({
       _id: user._id,
@@ -28,10 +29,11 @@ export const loginUser = async (req, res) => {
       token
     });
   } catch (err) {
-    console.error('Login error:', err);
+    console.error('Login error:', err); // ✅ Check what prints here
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 
 export const registerUser = async (req, res) => {
