@@ -1,11 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const outfitSchema = new mongoose.Schema({
-  name: { type: String, required: true }, // outfit name like "Summer Vibes"
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // who created it
-  clothingItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClothingItem' }], // clothes inside the outfit
-  isPublic: { type: Boolean, default: false }, // private (false) or public (true)
-  createdAt: { type: Date, default: Date.now }
+  name: { type: String, required: true },
+  items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClothingItem' }],
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // ✅
+  isPublic: { type: Boolean, default: false } // ✅
 });
 
 export default mongoose.model('Outfit', outfitSchema);

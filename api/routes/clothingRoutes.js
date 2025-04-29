@@ -1,14 +1,10 @@
-import express from 'express';
-import { uploadClothing, getAllClothingItems } from '../controllers/clothingController.js';
-import upload from '../middleware/uploadMiddleware.js'; // multer upload middleware
+import { Router } from 'express';
+import { uploadClothing, getUserClothingItems } from '../controllers/clothingController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
-const router = express.Router();
+const router = Router();
 
-// Upload clothing (POST)
-router.post('/upload', protect, upload.single('image'), uploadClothing);
-
-// Get all clothing items (GET)
-router.get('/all', getAllClothingItems);
+router.post('/upload', protect, uploadClothing);
+router.get('/all', protect, getUserClothingItems); // only own clothing
 
 export default router;
