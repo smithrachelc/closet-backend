@@ -34,7 +34,7 @@ export const loginUser = async (req, res) => {
 
 // POST /api/auth/register
 export const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password } = req.body; // ✅ grab "name" from frontend too
 
   try {
     const existingUser = await User.findOne({ email });
@@ -47,7 +47,8 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      username: email,    // ✅ Store email under "username" too
+      name,                // ✅ add the name here
+      username: email,      // still storing email as username
       email,
       password: hashedPassword,
       role: 'user'
