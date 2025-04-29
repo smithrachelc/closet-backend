@@ -21,11 +21,12 @@ export const toggleOutfitVisibility = async (req, res) => {
   try {
     const outfit = await Outfit.findById(outfitId);
     if (!outfit) return res.status(404).json({ message: 'Outfit not found' });
+
     outfit.isPublic = isPublic;
     await outfit.save();
     res.json(outfit);
   } catch (err) {
-    console.error('Toggle visibility error:', err);
+    console.error('Toggle visibility error:', err.message, err.stack);
     res.status(500).json({ message: 'Toggle failed' });
   }
 };
